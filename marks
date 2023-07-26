@@ -1,0 +1,83 @@
+#include <stdio.h>
+struct Student {
+    int roll_number;
+    int marks[6];
+};
+void find_lowest_highest_average(struct Student students[], int num_students) {
+    int lowest[6], highest[6], total[6] = {0};
+    int students_below_12[6] = {0};
+
+    for (int i = 0; i < 6; i++) {
+        lowest[i] = 100; // Assuming maximum marks are 100
+        highest[i] = 0;
+    }
+    for (int i = 0; i < num_students; i++) {
+        for (int j = 0; j < 6; j++) {
+            int marks = students[i].marks[j];
+
+            // Find lowest marks in each subject
+            if (marks < lowest[j]) {
+                lowest[j] = marks;
+            }
+
+            // Find highest marks in each subject
+            if (marks > highest[j]) {
+                highest[j] = marks;
+            }
+
+            // Calculate total marks for average calculation
+            total[j] += marks;
+
+            // Count students with marks below 12 in each subject
+            if (marks < 12) {
+                students_below_12[j]++;
+            }
+        }
+    }
+
+    // Calculate and print average marks in each subject
+    printf("Average Marks in Each Subject:\n");
+    for (int i = 0; i < 6; i++) {
+        float average = (float)total[i] / num_students;
+        printf("Subject %d: %.2f\n", i + 1, average);
+    }
+
+    // Print lowest and highest marks in each subject
+    printf("Lowest Marks in Each Subject:\n");
+    for (int i = 0; i < 6; i++) {
+        printf("Subject %d: %d\n", i + 1, lowest[i]);
+    }
+
+    printf("Highest Marks in Each Subject:\n");
+    for (int i = 0; i < 6; i++) {
+        printf("Subject %d: %d\n", i + 1, highest[i]);
+    }
+
+    
+    printf("Number of Students with Marks Below 12 in Each Subject:\n");
+    for (int i = 0; i < 6; i++) {
+        printf("Subject %d: %d\n", i + 1, students_below_12[i]);
+    }
+}
+
+int main() {
+    int num_students;
+    printf("Enter the number of students: ");
+    scanf("%d", &num_students);
+
+    struct Student students[num_students];
+
+    // Input student data
+    for (int i = 0; i < num_students; i++) {
+        printf("\nEnter Roll Number of Student %d: ", i + 1);
+        scanf("%d", &students[i].roll_number);
+
+        printf("Enter Marks for 6 Subjects (Space-separated) for Student %d: ", i + 1);
+        for (int j = 0; j < 6; j++) {
+            scanf("%d", &students[i].marks[j]);
+        }
+    }
+
+    find_lowest_highest_average(students, num_students);
+    return 0;
+}
