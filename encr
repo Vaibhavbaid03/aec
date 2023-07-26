@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+// Define the substitution map
+const char substitutionMap[] = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
+
+// Function to encrypt the message
+void encrypt(char *message) {
+    int i;
+    for (i = 0; message[i]; i++) {
+        if (isalpha(message[i])) {
+            if (isupper(message[i])) {
+                message[i] = substitutionMap[message[i] - 'A'];
+            } else {
+                message[i] = tolower(substitutionMap[toupper(message[i]) - 'A']);
+            }
+        }
+    }
+}
+
+// Function to decrypt the message
+void decrypt(char *message) {
+    int i;
+    for (i = 0; message[i]; i++) {
+        if (isalpha(message[i])) {
+            if (isupper(message[i])) {
+                message[i] = 'A' + (strchr(substitutionMap, message[i]) - substitutionMap);
+            } else {
+                message[i] = tolower('A' + (strchr(substitutionMap, toupper(message[i])) - substitutionMap));
+            }
+        }
+    }
+}
+
+int main() {
+    char message[100];
+
+    printf("Enter a message to encrypt: ");
+    fgets(message, sizeof(message), stdin);
+
+    // Encrypt the message
+    encrypt(message);
+    printf("Encrypted message: %s\n", message);
+
+    // Decrypt the message
+    decrypt(message);
+    printf("Decrypted message: %s\n", message);
+
+    return 0;
+}
