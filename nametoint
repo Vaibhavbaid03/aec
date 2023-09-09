@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <string.h>
+
+// Function to convert month number to month name
+const char *getMonthName(int month) {
+    switch (month) {
+        case 1: return "JAN";
+        case 2: return "FEB";
+        case 3: return "MAR";
+        case 4: return "APR";
+        case 5: return "MAY";
+        case 6: return "JUN";
+        case 7: return "JUL";
+        case 8: return "AUG";
+        case 9: return "SEP";
+        case 10: return "OCT";
+        case 11: return "NOV";
+        case 12: return "DEC";
+        default: return "Invalid";
+    }
+}
+
+int main() {
+    char inputDate[12]; // Assuming maximum date length is 10 characters (dd-mm-yyyy)
+    char outputDate[12]; // dd-xxx-yyyy + '\0' character
+
+    // Input date
+    printf("Enter a date in dd-mm-yyyy format: ");
+    scanf("%s", inputDate);
+
+    // Parse the input date
+    int day, month, year;
+    sscanf(inputDate, "%d-%d-%d", &day, &month, &year);
+
+    // Check if the month is valid
+    if (month < 1 || month > 12) {
+        printf("Invalid month entered.\n");
+         return 1;
+    }
+
+    // Get the month name
+    const char *monthName = getMonthName(month);
+
+    // Create the output date string
+    snprintf(outputDate, sizeof(outputDate), "%02d-%s-%04d", day, monthName, year);
+
+    // Print the converted date
+    printf("Converted date: %s\n", outputDate);
+
+    return 0;
+}
